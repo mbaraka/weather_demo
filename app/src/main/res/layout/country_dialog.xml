@@ -10,12 +10,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-    <Spinner
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:layout_toLeftOf="@id/countryDialog_prg_city"
             android:padding="6dp"
             android:id="@+id/countryDialog_spinner_cities"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"/>
+
+        <ProgressBar
+            android:id="@+id/countryDialog_prg_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:visibility="gone" />
+    </RelativeLayout>
 
     <Button
             android:id="@+id/countryDialog_btn_add"

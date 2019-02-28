@@ -9,11 +9,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.weather.CountriesPresenter;
 import com.weather.R;
 import com.weather.model.City;
 import com.weather.model.Country;
@@ -29,12 +29,14 @@ public class CountryDialogView extends LinearLayout implements View.OnClickListe
 	private Spinner countrySpinner;
 	private Spinner citySpinner;
 	private TextView txtCities;
+	private ProgressBar progressBar;
 	private Button btnAdd;
 	List<City> cityList = new ArrayList<>();
 	private City tempCity;
 
 	private List<Country> countryList;
-	private CountriesPresenter presenter = new CountriesPresenter();
+	private CitiesPresenters citiesPresenters = new CitiesPresenters();
+	private CountriesPresenter countriesPresenter = new CountriesPresenter();
 
 	public CountryDialogView(Context context) {
 		super(context);
@@ -63,6 +65,7 @@ public class CountryDialogView extends LinearLayout implements View.OnClickListe
 		adjustCountrySpinner();
 
 		citySpinner = findViewById(R.id.countryDialog_spinner_cities);
+		progressBar = findViewById(R.id.countryDialog_prg_city);
 
 		txtCities = findViewById(R.id.countryDialog_txt_cities);
 
@@ -84,7 +87,7 @@ public class CountryDialogView extends LinearLayout implements View.OnClickListe
 
 	private void adjustCountrySpinner() {
 
-		presenter.getCountries().subscribe(new DisposableObserver<List<Country>>() {
+		countriesPresenter.getCountries().subscribe(new DisposableObserver<List<Country>>() {
 			@Override
 			public void onNext(List<Country> countries) {
 				countryList = countries;
@@ -117,16 +120,22 @@ public class CountryDialogView extends LinearLayout implements View.OnClickListe
 	}
 
 	private void adjustCitySpinner(Country country) {
-		presenter.getCities(country).subscribe(new DisposableObserver<List<City>>() {
+		progressBar.setVisibility(View.VISIBLE);
+		clearCitiesSpinner();
+
+		citiesPresenters.getCities(country).subscribe(new DisposableObserver<List<City>>() {
 			@Override
 			public void onNext(List<City> cities) {
+				progressBar.setVisibility(View.GONE);
 				ArrayAdapter<City> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, cities);
 				citySpinner.setAdapter(adapter);
+
 			}
 
 			@Override
 			public void onError(Throwable e) {
 				Toast.makeText(getContext(), "Sorry couldn't load cities", Toast.LENGTH_LONG).show();
+				progressBar.setVisibility(View.GONE);
 			}
 
 			@Override
@@ -147,5 +156,11 @@ public class CountryDialogView extends LinearLayout implements View.OnClickListe
 
 			}
 		});
+	}
+
+	private void clearCitiesSpinner() {
+		ArrayAdapter<City> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, new ArrayList<>());
+		citySpinner.setAdapter(adapter);
+		tempCity = null;
 	}
 }

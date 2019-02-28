@@ -4,10 +4,8 @@ import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.weather.R
-import com.weather.WeatherCitiesPresenter
+import com.weather.home.WeatherCitiesPresenter
 import com.weather.model.City
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
 
 class CountryDialog {
 
@@ -17,7 +15,7 @@ class CountryDialog {
         val countryDialogView = CountryDialogView(activity)
         AlertDialog.Builder(activity)
                 .setView(countryDialogView)
-                .setPositiveButton(R.string.add,
+                .setPositiveButton(R.string.confirm,
                         DialogInterface.OnClickListener { dialog, id ->
                             // User clicked OK, so save the selectedItems results somewhere
                             // or return them to the component that opened the dialog
