@@ -35,7 +35,6 @@ public class CountryDialogView extends LinearLayout implements View.OnClickListe
 	private City tempCity;
 
 	private List<Country> countryList;
-	private CitiesPresenters citiesPresenters = new CitiesPresenters();
 	private CountriesPresenter countriesPresenter = new CountriesPresenter();
 
 	public CountryDialogView(Context context) {
@@ -113,9 +112,7 @@ public class CountryDialogView extends LinearLayout implements View.OnClickListe
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-
-			}
+			public void onNothingSelected(AdapterView<?> parent) { }
 		});
 	}
 
@@ -123,13 +120,12 @@ public class CountryDialogView extends LinearLayout implements View.OnClickListe
 		progressBar.setVisibility(View.VISIBLE);
 		clearCitiesSpinner();
 
-		citiesPresenters.getCities(country).subscribe(new DisposableObserver<List<City>>() {
+		CitiesPresenters.INSTANCE.getCities(country).subscribe(new DisposableObserver<List<City>>() {
 			@Override
 			public void onNext(List<City> cities) {
 				progressBar.setVisibility(View.GONE);
 				ArrayAdapter<City> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, cities);
 				citySpinner.setAdapter(adapter);
-
 			}
 
 			@Override
@@ -139,22 +135,17 @@ public class CountryDialogView extends LinearLayout implements View.OnClickListe
 			}
 
 			@Override
-			public void onComplete() {
-
-			}
+			public void onComplete() { }
 		});
 
 		citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				City city = (City) citySpinner.getAdapter().getItem(position);
-				tempCity = city;
+				tempCity = (City) citySpinner.getAdapter().getItem(position);
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-
-			}
+			public void onNothingSelected(AdapterView<?> parent) { }
 		});
 	}
 

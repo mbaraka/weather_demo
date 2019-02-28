@@ -20,4 +20,19 @@ class Country {
         return countryName
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Country
+
+        if (geonameId != other.geonameId) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return geonameId.hashCode()
+    }
+
 }

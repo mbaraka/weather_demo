@@ -6,14 +6,12 @@ import com.weather.model.DaysWeather
 import com.weather.utils.RequestHelper
 import com.weather.utils.RxHelper
 import io.reactivex.Observable
-import io.reactivex.disposables.SerialDisposable
 
 class CityDetailsPresenter(private val cityId: Int) {
     private val baseURL = "http://api.openweathermap.org/data/2.5/forecast"
     private val APP_ID = "6871f74220dc203e86b498f2ab03ca3f"
     private val metric = "metric"
 
-    private val disposable = SerialDisposable()
     private val requestHelper: RequestHelper = RequestHelper()
 
     fun requestDataForCities(): Observable<DaysWeather> {

@@ -11,7 +11,6 @@ import com.weather.CityDetails.CityActivity
 import com.weather.R
 import com.weather.model.OpenWeather
 
-
 class CitiesRecyclerAdapter(private val allowClick: Boolean) : RecyclerView.Adapter<MyViewHolder>() {
 
     private val dataList: ArrayList<OpenWeather> = ArrayList()

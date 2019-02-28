@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.weather.R
 import com.weather.countryDialog.CountryDialog
+import com.weather.utils.RxHelper
 import com.weather.utils.rxError
 import io.reactivex.disposables.SerialDisposable
 import io.reactivex.functions.Consumer
@@ -66,6 +67,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         WeatherCitiesPresenter.stop()
+        RxHelper.unsubscribe(cityDisposable.get())
+        RxHelper.unsubscribe(errorDisposable.get())
         super.onDestroy()
     }
 
